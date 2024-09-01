@@ -16,11 +16,11 @@
 
   outputs = { home-manager, nix-darwin, nixpkgs-unstable, ... }:
     {
-      darwinConfigurations."HKs-MacBook-Air" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+      darwinConfigurations."Johns-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
         specialArgs = {
           pkgsUnstable = import nixpkgs-unstable {
-            system = "aarch64-darwin";
+            system = "x86_64-darwin";
           };
         };
         modules = [
@@ -29,10 +29,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.hkscarf = import ./home.nix;
+            home-manager.users.jdoe = import ./home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = nixpkgs-unstable {
-                system = "aarch64-darwin";
+                system = "x86_64-darwin";
               };
             };
           }

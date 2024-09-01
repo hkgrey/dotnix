@@ -18,7 +18,7 @@ in
   ##################################################################################################
 
   # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = "x86_64-darwin";
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
@@ -59,14 +59,14 @@ in
       ];
       trusted-users = [
         "root"
-        "hkscarf"
+        "jdoe"
       ];
     };
   };
 
-  users.users.hkscarf = {
-    name = "hkscarf";
-    home = "/Users/hkscarf";
+  users.users.jdoe = {
+    name = "jdoe";
+    home = "/Users/jdoe";
   };
 
   # Create /etc/zshrc | /etc/bashrc that loads the nix-darwin environment.
@@ -166,34 +166,20 @@ in
       # https://formulae.brew.sh/formula/{name}
       
       # Dev dependencies
-      { name = "libiconv"; }
-      { name = "libpq"; }
-      { name = "librdkafka"; }
-      { name = "openssl"; }
-      { name = "pkg-config"; }
-      { name = "pcre"; }
-      { name = "postgresql@14"; }
-      { name = "rocksdb"; }
-      { name = "tmux"; }
-      { name = "zlib"; }
 
       # Other
       # { name = "bitwarden-cli"; }
       # { name = "mas"; }
     ];
     casks = [
-      # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
-      # "docker" # Docker CLI + Docker Desktop
+      "1password"
+      "1password-cli"
       "firefox" # browser
-      "linear-linear" # work issue tracker
       "mullvadvpn" # privacy vpn
-      "notion" # work docs
-      "orbstack" # Docker Desktop alternative
-      "slack" # work chat
+      "slack"
     ];
     masApps = {
-      Bitwarden = 1352778147; # work pw manager
-      Tailscale = 1475387142; # work vpn
+      "1Password for Safari" = 1569813296;
     };
   };
 
@@ -211,14 +197,8 @@ in
       orientation = "bottom";
       persistent-apps = [
         "/Applications/Firefox.app"
-        "/Applications/Slack.app" # via brew cask
         "/System/Applications/Mail.app"
-        "/Applications/Notion.app" # via brew cask
-        "/Applications/Linear.app" # via brew cask
-        "/Applications/Bitwarden.app" # via brew and `mas` (mac app store tool)
-        "/System/Applications/Utilities/Terminal.app" # via brew
-        # "/Applications/Docker.app" # via brew cask
-        "/Applications/Orbstack.app" # via brew cask
+        "/System/Applications/Utilities/Terminal.app"
         "${pkgs.raycast}/Applications/Raycast.app"
         "/Applications/Mullvad\ VPN.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
