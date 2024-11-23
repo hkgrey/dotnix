@@ -41,7 +41,7 @@ in
       "experimental-features" = "nix-command flakes";
       "auto-optimise-store" = true;
       "max-jobs" = "auto";
-      "upgrade-nix-store-path-url" = "https://install.determinate.systems/nix-upgrade/stable/universal";
+      # "upgrade-nix-store-path-url" = "https://install.determinate.systems/nix-upgrade/stable/universal";
 
       # Manual Additions
       ## FIXME warning: ignoring untrusted substituter <blah>, you are not a trusted user.
@@ -50,7 +50,6 @@ in
         "https://cache.nixos.org/"
         "https://iohk.cachix.org"
         "https://nix-community.cachix.org"
-        "https://scarf.cachix.org"
       ];
       "extra-trusted-public-keys" = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -131,6 +130,7 @@ in
 
       # CLI Programs
       bat # modern `cat`
+      dasht # cli for viewing dash docsets
       delta # for diff-ing
       jc # convert cli command outputs to json
       procs # modern `ps`
@@ -174,6 +174,7 @@ in
     casks = [
       "1password"
       "1password-cli"
+      "dash"
       "firefox" # browser
       "mullvadvpn" # privacy vpn
       "slack"
