@@ -138,7 +138,7 @@
     };
   };
 
-  programs.neovim.enable = true;
+  programs.neovim.enable = false;
   programs.neovim = {
     defaultEditor = false;
     viAlias = true;
