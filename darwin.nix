@@ -139,6 +139,7 @@ in
       nix-direnv
       nix-info
       nix-tree
+      nix-update # for pr-ing version updates to nixpkgs
       sbomnix
 
       # GUI Apps
