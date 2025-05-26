@@ -71,6 +71,7 @@
       export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
       export PATH="$HOME/.ghcup/bin:$PATH"
+      export PATH=$PATH:$HOME/go/bin
     '';
 
     ## Per https://github.com/nix-community/home-manager/blob/bb4b25b302dbf0f527f190461b080b5262871756/modules/programs/bash.nix#L86
@@ -138,7 +139,7 @@
     };
   };
 
-  programs.neovim.enable = false;
+  programs.neovim.enable = true;
   programs.neovim = {
     defaultEditor = false;
     viAlias = true;
@@ -147,7 +148,9 @@
 
     extraPackages = [ ];
     extraPython3Packages = ps: [ ];
-    plugins = [ ];
+    plugins = with pkgs.vimPlugins; [
+      telescope-nvim
+    ];
   };
 
   programs.nix-index.enable = true;
@@ -172,8 +175,15 @@
 
   programs.vscode.enable = true;
   programs.vscode = {
+    # https://github.com/nix-community/home-manager/issues/3507
+    # https://github.com/nix-community/home-manager/issues/4394#issuecomment-1712909231
+    # programs.vscode.mutableExtensionsDir can be used only if no profiles apart from default are set.
+    mutableExtensionsDir = true;
+  };
+  programs.vscode.profiles.default = {
     enableUpdateCheck = false;
-
+  };
+  programs.vscode.profiles.default = {
     userSettings = {
       "editor" = {
         "fontSize" = 18;
@@ -204,10 +214,6 @@
       };
       "window.titleBarStyle" = "native";
     };
-
-    # https://github.com/nix-community/home-manager/issues/3507
-    # https://github.com/nix-community/home-manager/issues/4394#issuecomment-1712909231
-    mutableExtensionsDir = false;
 
     extensions =
       # TODO Requires stable and unstable nixpkgs

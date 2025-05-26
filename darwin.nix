@@ -14,8 +14,26 @@ in
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
 
+  #   The default Nix build user group ID was changed from 30000 to 350.
+  # You are currently managing Nix build users with nix-darwin, but your
+  # nixbld group has GID 350, whereas we expected 30000.
+  # 
+  # Possible causes include setting up a new Nix installation with an
+  # existing nix-darwin configuration, setting up a new nix-darwin
+  # installation with an existing Nix installation, or manually increasing
+  # your `system.stateVersion` setting.
+  # 
+  # You can set the configured group ID to match the actual value:
+  # 
+  #     ids.gids.nixbld = 350;
+  # 
+  # We do not recommend trying to change the group ID with macOS user
+  # management tools without a complete uninstallation and reinstallation
+  # of Nix.
+  ids.gids.nixbld = 350;
+
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  nix.enable = true;
   nix = {
     package = pkgs.nixVersions.latest; # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
     checkConfig = true;
@@ -55,6 +73,8 @@ in
     };
   };
 
+  system.primaryUser = "jdoe";
+
   users.users.jdoe = {
     name = "jdoe";
     home = "/Users/jdoe";
@@ -71,10 +91,15 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # "blender"
     "raycast"
+    "tableplus"
     "terraform"
     "vscode"
     "Xcode.app"
   ];
+
+  environment.variables = {
+    DO_NOT_TRACK = "1";
+  };
 
   # Provided by nixpkgs
   environment.systemPackages = [
@@ -83,6 +108,8 @@ in
   ] 
   ++ (with pkgsUnstable;
     [
+      devenv # easy nix project envs
+      mas # Mac App Store command line interface
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
   )
@@ -94,8 +121,8 @@ in
       go
       python313
       # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
-      nodejs_22
-      nodePackages.pnpm
+      # nodejs_22
+      # nodePackages.pnpm
 
       # Linters + Formatters
       haskellPackages.cabal-fmt
@@ -112,6 +139,7 @@ in
 
       # Data
       sqlcheck # SQL Anti-Pattern Linter
+      tableplus # db client
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
 
       # Data Store
@@ -124,8 +152,10 @@ in
 
       # CLI Programs
       bat # modern `cat`
+      bottom # system monitoring
       dasht # cli for viewing dash docsets
       delta # for diff-ing
+      # glances # system monitoring
       jc # convert cli command outputs to json
       procs # modern `ps`
       tldr # quick usage guide when you don't need the full manpages
@@ -157,7 +187,7 @@ in
   # Provided by nix-darwin.
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
-    brews = [
+    brews = lib.mkForce [
       # https://formulae.brew.sh/formula/{name}
       
       # Dev dependencies
@@ -175,10 +205,11 @@ in
       "micro-snitch" # camera + mic monitor
       "mullvadvpn" # privacy vpn
       "slack"
+      "zulip" # chat app
     ];
     masApps = {
-      "1Password for Safari" = 1569813296;
-      "Xcode" = 497799835;
+      # "1Password for Safari" = 1569813296;
+      # "Xcode" = 497799835;
     };
   };
 
@@ -188,7 +219,7 @@ in
 
   ## See available configuration options at https://daiderd.com/nix-darwin/manual/index.html
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   system.defaults = {
     dock = {
