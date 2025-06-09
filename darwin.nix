@@ -117,6 +117,12 @@ in
     [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
+      # GB
+      mosh # https://mosh.org/#techinfo
+      pipx
+      uv
+      postgresql_16
+
       # Programming Languages and Environments
       go
       python313
@@ -200,10 +206,13 @@ in
       "1password-cli"
       "blender"
       "dash"
+      "docker" # for docker-desktop (dupe hosts issue in bi_stack)
       "firefox" # browser
       "little-snitch" # firewall
       "micro-snitch" # camera + mic monitor
       "mullvadvpn" # privacy vpn
+      # "orbstack" # docker desktop alternative 
+      # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
       "slack"
       "zulip" # chat app
     ];
