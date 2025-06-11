@@ -11,7 +11,7 @@ For example, typing `git` into terminal will prompt dialogue about installing xc
 
 1. Clone repo and follow configuration + installation steps
 
-Repo at github.com/hkscarf/dotnix
+Repo at github.com/brighthome9757/dotnix
 
 3. Set default shell manually
 

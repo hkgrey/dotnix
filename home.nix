@@ -63,7 +63,7 @@
       fi
 
       # export PATH="/run/current-system/sw/bin:$PATH"
-      # export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
+      # export PATH="/etc/profiles/per-user/jdoe/bin:$PATH"
 
       export PATH="/opt/homebrew/bin:$PATH"
       export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
@@ -109,6 +109,8 @@
     # enableNushellIntegration = true;
   };
 
+  programs.fish.enable = true;
+
   programs.fzf.enable = true;
   programs.fzf = {
     enableBashIntegration = true;
@@ -121,8 +123,8 @@
     # ignores = [
     #   *.local
     # ];
-    userEmail = "heneli.kailahi@scarf.sh";
-    userName = "Heneli";
+    userEmail = "fast.can6663@fastmail.com";
+    userName = "John Doe";
   };
 
   programs.jq.enable = true;
@@ -173,12 +175,17 @@
     settings = { };
   };
 
+  programs.tmux.enable = true;
+  programs.tmux = {
+    mouse = true;
+  };
+
   programs.vscode.enable = true;
   programs.vscode = {
     # https://github.com/nix-community/home-manager/issues/3507
     # https://github.com/nix-community/home-manager/issues/4394#issuecomment-1712909231
     # programs.vscode.mutableExtensionsDir can be used only if no profiles apart from default are set.
-    mutableExtensionsDir = true;
+    mutableExtensionsDir = false;
   };
   programs.vscode.profiles.default = {
     enableUpdateCheck = false;
@@ -226,6 +233,9 @@
         bbenoist.nix
         jnoortheen.nix-ide
         # mkhl.direnv
+
+        # Python
+        ms-python.python
 
         # Haskell
         justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell

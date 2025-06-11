@@ -94,7 +94,7 @@ Follow the [Zero-to-Nix Quickstart Guide](https://zero-to-nix.com/start/install)
 ```bash
 $ mkdir -p ~/.config
 $ cd ~/.config
-$ git clone https://github.com/hkscarf/dotnix
+$ git clone https://github.com/brighthome9757/dotnix
 ```
 
 FIXME TODO - Need to describe configuring. Replacing hostname, user, home dir, etc
