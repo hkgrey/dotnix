@@ -68,16 +68,16 @@ in
       ];
       trusted-users = [
         "root"
-        "jdoe"
+        "hkgrey"
       ];
     };
   };
 
-  system.primaryUser = "jdoe";
+  system.primaryUser = "hkgrey";
 
-  users.users.jdoe = {
-    name = "jdoe";
-    home = "/Users/jdoe";
+  users.users.hkgrey = {
+    name = "hkgrey";
+    home = "/Users/hkgrey";
   };
 
   # Create /etc/zshrc | /etc/bashrc that loads the nix-darwin environment.
