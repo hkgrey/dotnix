@@ -123,8 +123,8 @@
     # ignores = [
     #   *.local
     # ];
-    userEmail = "fast.can6663@fastmail.com";
-    userName = "John Doe";
+    userEmail = "foo@bar.com";
+    userName = "Heneli";
   };
 
   programs.jq.enable = true;
@@ -243,6 +243,7 @@
 
         # JS + TS
         esbenp.prettier-vscode
+        svelte.svelte-vscode
 
         # Documentation
         unifiedjs.vscode-mdx

@@ -16,7 +16,7 @@
 
   outputs = { home-manager, nix-darwin, nixpkgs-unstable, ... }:
     {
-      darwinConfigurations."Johns-MacBook-Pro-2" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."Henelis-MacBook-Pro" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {
           pkgsUnstable = import nixpkgs-unstable {
@@ -29,7 +29,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jdoe = import ./home.nix;
+            home-manager.users.hkgrey = import ./home.nix;
             home-manager.extraSpecialArgs = {
               pkgsUnstable = nixpkgs-unstable {
                 system = "aarch64-darwin";
