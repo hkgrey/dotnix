@@ -103,13 +103,13 @@ in
 
   # Provided by nixpkgs
   environment.systemPackages = [
-    # tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
     # vulnix FIXME Enable with overlay
   ] 
   ++ (with pkgsUnstable;
     [
-      devenv # easy nix project envs
-      mas # Mac App Store command line interface
+      # devenv # easy nix project envs
+      # mas # Mac App Store command line interface
+      raycast # alfred/spotlight alternative, productivity tool
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
   )
@@ -119,27 +119,20 @@ in
 
       # GB
       mosh # https://mosh.org/#techinfo
-      pipx
-      uv
-      postgresql_16
 
       # Programming Languages and Environments
       go
       python313
-      # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
-      # nodejs_22
-      # nodePackages.pnpm
+      nodejs_24
+      pipx
+      uv
 
       # Linters + Formatters
-      haskellPackages.cabal-fmt
-      hlint
       nixpkgs-fmt
-      ormolu
       sqlfluff # SQL formatter that supports Postgres and ClickHouse
       treefmt # Runs all formatters
 
       # Infra
-      dhall
       k9s
       terraform
 
@@ -151,6 +144,7 @@ in
       # Data Store
       duckdb
       clickhouse
+      postgresql_16
       sqlite
 
       # Shell
@@ -179,9 +173,6 @@ in
       sbomnix
 
       # GUI Apps
-      # blender # 3D Creation/Animation/Publishing System
-      raycast # alfred/spotlight alternative, productivity tool
-      tailscale # work vpn
 
       # Other
 
@@ -277,18 +268,4 @@ in
       ll = "ls -l";
     };
   };
-
-  # TODO Move from `home.nix:programs.bash.bashrcExtra`????
-  # systemPath = [
-  #   "/usr/local/opt/postgresql@11/bin"
-  #   "$HOME/.ghcup/bin"
-  # ];
-
-  # TODO Move from `home.nix:home.sessionVariables`????
-  # variables = {
-  #   EDITOR = "code";
-  #   # Just keep copy of ./etc-nix files in .config/nix since nix.settings and nix.extraOptions refuse to work
-  #   # FIXME 1/2024 - Settings in `darwin.nix` get applied to /etc/nix/nix.conf before this changes?
-  #   NIX_CONF_DIR = "$HOME/.config/nix";
-  # };
 }
