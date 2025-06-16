@@ -41,7 +41,7 @@ in
     #   { darwin-config = "$HOME/.nixpkgs/darwin-configuration.nix"; }
     #   "/nix/var/nix/profiles/per-user/root/channels"
     # ];
-    
+
     optimise.automatic = true;
 
     settings = {
@@ -90,6 +90,7 @@ in
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # "blender"
+    "ngrok"
     "raycast"
     "tableplus"
     "terraform"
@@ -105,7 +106,7 @@ in
   # Provided by nixpkgs
   environment.systemPackages = [
     # vulnix FIXME Enable with overlay
-  ] 
+  ]
   ++ (with pkgsUnstable;
     [
       # devenv # easy nix project envs
@@ -113,12 +114,13 @@ in
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
   )
-    ++ (with pkgs;
+  ++ (with pkgs;
     [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
       # GB
       mosh # https://mosh.org/#techinfo
+      ngrok # serve local apps over public internet
 
       # Programming Languages and Environments
       go
@@ -189,7 +191,7 @@ in
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
     brews = lib.mkForce [
       # https://formulae.brew.sh/formula/{name}
-      
+
       # Dev dependencies
 
       # Other
@@ -253,8 +255,8 @@ in
   };
 
   # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys: 
-    #   - Command key -> Option
-    #   - Option key -> Commmand
+  #   - Command key -> Option
+  #   - Option key -> Commmand
   system.keyboard = {
     enableKeyMapping = true;
     remapCapsLockToEscape = true;
