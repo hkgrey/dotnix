@@ -94,6 +94,7 @@ in
     "tableplus"
     "terraform"
     "vscode"
+    "vscode-extension-MS-python-vscode-pylance"
     "Xcode.app"
   ];
 
@@ -109,7 +110,6 @@ in
     [
       # devenv # easy nix project envs
       # mas # Mac App Store command line interface
-      raycast # alfred/spotlight alternative, productivity tool
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
   )
@@ -145,6 +145,8 @@ in
       duckdb
       clickhouse
       postgresql_16
+      # snowflake-cli  # bugged
+      # snowsql # unsupported os/arch
       sqlite
 
       # Shell
@@ -173,6 +175,7 @@ in
       sbomnix
 
       # GUI Apps
+      raycast # alfred/spotlight alternative, productivity tool
 
       # Other
 
@@ -205,6 +208,7 @@ in
       # "orbstack" # docker desktop alternative 
       # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
       "slack"
+      "snowflake-snowsql"
       "zulip" # chat app
     ];
     masApps = {
@@ -266,6 +270,7 @@ in
   environment = {
     shellAliases = {
       ll = "ls -l";
+      snowsql = "/Applications/SnowSQL.app/Contents/MacOS/snowsql";
     };
   };
 }

@@ -120,9 +120,10 @@
   programs.git.enable = true;
   programs.git = {
     includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
-    # ignores = [
-    #   *.local
-    # ];
+    ignores = [
+      "*.local"
+      "*.pem"
+    ];
     userEmail = "foo@bar.com";
     userName = "Heneli";
   };
@@ -236,6 +237,7 @@
 
         # Python
         ms-python.python
+        ms-python.vscode-pylance
 
         # Haskell
         justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell
