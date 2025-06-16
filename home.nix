@@ -120,11 +120,12 @@
   programs.git.enable = true;
   programs.git = {
     includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
-    # ignores = [
-    #   *.local
-    # ];
-    userEmail = "fast.can6663@fastmail.com";
-    userName = "John Doe";
+    ignores = [
+      "*.local"
+      "*.pem"
+    ];
+    userEmail = "foo@bar.com";
+    userName = "Heneli";
   };
 
   programs.jq.enable = true;
@@ -236,6 +237,7 @@
 
         # Python
         ms-python.python
+        ms-python.vscode-pylance
 
         # Haskell
         justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell
@@ -243,6 +245,7 @@
 
         # JS + TS
         esbenp.prettier-vscode
+        svelte.svelte-vscode
 
         # Documentation
         unifiedjs.vscode-mdx
