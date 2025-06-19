@@ -91,6 +91,7 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # "blender"
     "ngrok"
+    "notion-app"
     "raycast"
     "tableplus"
     "terraform"
@@ -121,6 +122,7 @@ in
       # GB
       mosh # https://mosh.org/#techinfo
       ngrok # serve local apps over public internet
+      notion-app # team documentation
 
       # Programming Languages and Environments
       go
@@ -236,6 +238,7 @@ in
         "/System/Applications/Mail.app"
         "/System/Applications/Utilities/Terminal.app"
         "${pkgs.raycast}/Applications/Raycast.app"
+        "${pkgs.notion-app}/Applications/Notion.app"
         "/Applications/Mullvad\ VPN.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
       ];
