@@ -89,7 +89,7 @@ in
   ##################################################################################################
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    # "blender"
+    "1password-cli"
     "ngrok"
     "notion-app"
     "raycast"
@@ -112,6 +112,10 @@ in
     [
       # devenv # easy nix project envs
       # mas # Mac App Store command line interface
+      # AI
+      claude-code
+
+      # Data
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
   )
@@ -123,6 +127,9 @@ in
       mosh # https://mosh.org/#techinfo
       ngrok # serve local apps over public internet
       notion-app # team documentation
+      step-cli # jwt tooling
+      jwt-cli # jwt tooling
+      _1password-cli
 
       # Programming Languages and Environments
       go
@@ -195,20 +202,22 @@ in
       # https://formulae.brew.sh/formula/{name}
 
       # Dev dependencies
+      "snowflake-cli"
 
       # Other
       # { name = "mas"; }
     ];
     casks = [
       "1password"
-      "1password-cli"
-      "blender"
+      # "1password-cli"
       "dash"
       "docker" # for docker-desktop (dupe hosts issue in bi_stack)
       "firefox" # browser
+      "ghostty" # terminal
       "little-snitch" # firewall
       "micro-snitch" # camera + mic monitor
       "mullvadvpn" # privacy vpn
+      "protonvpn" # business vpn
       # "orbstack" # docker desktop alternative 
       # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
       "slack"
@@ -236,10 +245,12 @@ in
       persistent-apps = [
         "/Applications/Firefox.app"
         "/System/Applications/Mail.app"
-        "/System/Applications/Utilities/Terminal.app"
+        "/Applications/Ghostty.app" # via brew cask
         "${pkgs.raycast}/Applications/Raycast.app"
         "${pkgs.notion-app}/Applications/Notion.app"
         "/Applications/Mullvad\ VPN.app" # via brew cask
+        "/System/Volumes/Data/Applications/ProtonVPN.app" # via brew cask
+        "/System/Volumes/Data/Applications/PDF\ Expert.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
       ];
       show-process-indicators = true;

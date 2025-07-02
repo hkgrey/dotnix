@@ -21,6 +21,11 @@
         specialArgs = {
           pkgsUnstable = import nixpkgs-unstable {
             system = "aarch64-darwin";
+            config = {
+              allowUnfreePredicate = pkg: builtins.elem (nixpkgs-unstable.lib.getName pkg) [
+                "claude-code"
+              ];
+            };
           };
         };
         modules = [
@@ -33,6 +38,11 @@
             home-manager.extraSpecialArgs = {
               pkgsUnstable = nixpkgs-unstable {
                 system = "aarch64-darwin";
+                config = {
+                  allowUnfreePredicate = pkg: builtins.elem (nixpkgs-unstable.lib.getName pkg) [
+                    "claude-code"
+                  ];
+                };
               };
             };
           }
