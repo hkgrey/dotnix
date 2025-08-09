@@ -115,6 +115,9 @@ in
       # AI
       claude-code
 
+      # Programming Languages and Environments
+      uv
+
       # Data
       tbls # Tool for documenting sql databases (postgres + clickhouse support)
     ]
@@ -128,15 +131,18 @@ in
       ngrok # serve local apps over public internet
       notion-app # team documentation
       step-cli # jwt tooling
+      just # command runner
       jwt-cli # jwt tooling
       _1password-cli
+      brave # a browser
+      s5cmd # fast s3
 
       # Programming Languages and Environments
       go
       python313
       nodejs_24
       pipx
-      uv
+      rustup
 
       # Linters + Formatters
       nixpkgs-fmt
@@ -187,6 +193,8 @@ in
 
       # GUI Apps
       raycast # alfred/spotlight alternative, productivity tool
+      # zulip # chat
+      zulip-term
 
       # Other
 
@@ -201,6 +209,9 @@ in
     brews = lib.mkForce [
       # https://formulae.brew.sh/formula/{name}
 
+      # Containers
+      "hub-tool"
+
       # Dev dependencies
       "snowflake-cli"
 
@@ -214,6 +225,7 @@ in
       "docker" # for docker-desktop (dupe hosts issue in bi_stack)
       "firefox" # browser
       "ghostty" # terminal
+      "linear-linear" # tracker
       "little-snitch" # firewall
       "micro-snitch" # camera + mic monitor
       "mullvadvpn" # privacy vpn

@@ -181,10 +181,16 @@ in
     ignores = [
       "*.local"
       "*.pem"
+      "*.p8"
       ".claude"
     ];
     userEmail = "foo@bar.com";
     userName = "Heneli";
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
   };
 
   programs.jq.enable = true;
@@ -234,6 +240,10 @@ in
   programs.pylint = {
     settings = { };
   };
+
+  programs.ripgrep.enable = true;
+
+  programs.ripgrep-all.enable = true;
 
   programs.tmux.enable = true;
   programs.tmux = {
@@ -296,7 +306,11 @@ in
         jnoortheen.nix-ide
         # mkhl.direnv
 
+        # Rust
+        rust-lang.rust-analyzer
+
         # Python
+        charliermarsh.ruff
         ms-python.python
         ms-python.vscode-pylance
 
