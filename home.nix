@@ -1,23 +1,23 @@
 { pkgs, pkgsUnstable, ... }:
-let 
-  op-cred-helper = pkgs.writeShellApplication {
-    name = "op-cred-helper";
-    runtimeInputs = [ pkgs._1password-cli ];
-    text = ''
-      vault="$1"
-      secret_id="$2"
+# let 
+#   op-cred-helper = pkgs.writeShellApplication {
+#     name = "op-cred-helper";
+#     runtimeInputs = [ pkgs._1password-cli ];
+#     text = ''
+#       vault="$1"
+#       secret_id="$2"
       
-      cat <<END | op inject
-      {
-        "Version": 1,
-        "AccessKeyId": "{{ op://''${vault}/''${secret_id}/access key id }}",
-        "SecretAccessKey": "{{ op://''${vault}/''${secret_id}/secret access key }}"
-      }
-      END
-    '';
-  };
+#       cat <<END | op inject
+#       {
+#         "Version": 1,
+#         "AccessKeyId": "{{ op://''${vault}/''${secret_id}/access key id }}",
+#         "SecretAccessKey": "{{ op://''${vault}/''${secret_id}/secret access key }}"
+#       }
+#       END
+#     '';
+#   };
 
-in
+# in
 {
   ##################################################################################################
   ### Configuring Nix + Home-Manager
@@ -46,13 +46,13 @@ in
   ## TODO Enable and check
   programs.awscli.enable = true;
   programs.awscli = {
-    credentials = {
-      "default" = {
-          # https://tenmilesquare.com/resources/security/how-to-use-1password-to-securely-store-your-aws-credentials/
-          "credential_process" = "${op-cred-helper}/bin/op-cred-helper 'CLI Accessible' 'S3 Dev bucket access key'";
-          "region" = "us-west-2";
-      };
-    };
+    # credentials = {
+    #   "default" = {
+    #       # https://tenmilesquare.com/resources/security/how-to-use-1password-to-securely-store-your-aws-credentials/
+    #       "credential_process" = "${op-cred-helper}/bin/op-cred-helper 'CLI Accessible' 'S3 Dev bucket access key'";
+    #       "region" = "us-west-2";
+    #   };
+    # };
     # Configuration written to $HOME/.aws/config.
     settings = {
       "default" = {
@@ -82,12 +82,13 @@ in
       # export PATH="/etc/profiles/per-user/jdoe/bin:$PATH"
 
       export PATH="/opt/homebrew/bin:$PATH"
-      export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
-      export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
-      export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
+      # export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
+      # export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
+      # export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
       export PATH="$HOME/.ghcup/bin:$PATH"
       export PATH=$PATH:$HOME/go/bin
+      export PATH=$PATH:$HOME/.cargo/bin
     '';
 
     ## Per https://github.com/nix-community/home-manager/blob/bb4b25b302dbf0f527f190461b080b5262871756/modules/programs/bash.nix#L86
@@ -179,6 +180,7 @@ in
   programs.git = {
     includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
     ignores = [
+      ".DS_Store"
       "*.local"
       "*.pem"
       "*.p8"
@@ -192,6 +194,8 @@ in
       };
     };
   };
+
+  programs.java.enable = true;
 
   programs.jq.enable = true;
 

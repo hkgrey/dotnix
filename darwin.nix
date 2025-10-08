@@ -115,7 +115,12 @@ in
       # AI
       claude-code
 
+      # Databases
+      duckdb
+      clickhouse-lts
+
       # Programming Languages and Environments
+      evcxr
       uv
 
       # Data
@@ -159,8 +164,6 @@ in
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
 
       # Data Store
-      duckdb
-      clickhouse
       postgresql_16
       # snowflake-cli  # bugged
       # snowsql # unsupported os/arch
@@ -174,6 +177,7 @@ in
       bottom # system monitoring
       dasht # cli for viewing dash docsets
       delta # for diff-ing
+      dust # better du
       # glances # system monitoring
       jc # convert cli command outputs to json
       procs # modern `ps`
@@ -299,6 +303,7 @@ in
     shellAliases = {
       ll = "ls -l";
       snowsql = "/Applications/SnowSQL.app/Contents/MacOS/snowsql";
+      rupl = "evcxr";
     };
   };
 }
