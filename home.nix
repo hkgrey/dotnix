@@ -383,6 +383,13 @@
           sha256 = "sha256-SMEqbpKYNck23zgULsdnsw4PS20XMPUpJ5kYh1fpd14=";
         }
         {
+          # Python Virtual Env Locator (useful for monorepos)
+          name = "python-envy";
+          publisher = "teticio";
+          version = "0.1.11";
+          sha256 = "sha256-grkusc1UWWxpD25f4bnoBSumjwKuIum+jRMJ+gt1d94=";
+        }
+        {
           # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
           # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
           # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables

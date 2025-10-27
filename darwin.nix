@@ -131,6 +131,8 @@ in
     [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
+      coreutils
+
       # GB
       mosh # https://mosh.org/#techinfo
       ngrok # serve local apps over public internet
