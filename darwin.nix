@@ -153,6 +153,7 @@ in
 
       # Linters + Formatters
       nixpkgs-fmt
+      sleek # CLI tool for formatting SQL
       sqlfluff # SQL formatter that supports Postgres and ClickHouse
       treefmt # Runs all formatters
 
