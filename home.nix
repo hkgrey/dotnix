@@ -185,12 +185,15 @@
       "*.pem"
       "*.p8"
       ".claude"
+      "*scratch/"
     ];
-    userEmail = "foo@bar.com";
-    userName = "Heneli";
-    extraConfig = {
-      init = {
-        defaultBranch = "main";
+    settings = {
+      user.email = "foo@bar.com";
+      user.name = "Heneli";
+      extraConfig = {
+        init = {
+          defaultBranch = "main";
+        };
       };
     };
   };
@@ -211,18 +214,31 @@
     };
   };
 
-  programs.neovim.enable = true;
-  programs.neovim = {
-    defaultEditor = false;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
+  # Use NVF instead of home-manager module for neovim
+  # programs.neovim.enable = true;
+  # programs.neovim = {
+  #   defaultEditor = false;
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  #
+  #   extraPackages = [ ];
+  #   extraPython3Packages = ps: [ ];
+  #   plugins = with pkgs.vimPlugins; [
+  #     telescope-nvim
+  #   ];
+  # };
 
-    extraPackages = [ ];
-    extraPython3Packages = ps: [ ];
-    plugins = with pkgs.vimPlugins; [
-      telescope-nvim
-    ];
+  programs.nvf = {
+    enable = true;
+    settings = {
+      vim = {
+        viAlias = true;
+        vimAlias = true;
+        theme.enable = true;
+        # Add your nvf configuration options here
+      };
+    };
   };
 
   programs.nix-index.enable = true;

@@ -60,11 +60,13 @@ in
         "https://cache.nixos.org/"
         "https://iohk.cachix.org"
         "https://nix-community.cachix.org"
+        "https://nvf.cachix.org"
       ];
       "extra-trusted-public-keys" = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nvf.cachix.org-1:GMQWiUhZ6ux9D5CvFFMwnc2nFrUHTeGaXRlVBXo+naI="
       ];
       trusted-users = [
         "root"
@@ -134,6 +136,7 @@ in
       coreutils
 
       # GB
+      diesel-cli # Database tool for working with Rust projects that use Diesel
       mosh # https://mosh.org/#techinfo
       ngrok # serve local apps over public internet
       notion-app # team documentation
@@ -151,6 +154,9 @@ in
       pipx
       rustup
 
+      # IPC
+      capnproto
+
       # Linters + Formatters
       nixpkgs-fmt
       sleek # CLI tool for formatting SQL
@@ -162,7 +168,7 @@ in
       terraform
 
       # Data
-      sqlcheck # SQL Anti-Pattern Linter
+      # sqlcheck # SQL Anti-Pattern Linter
       tableplus # db client
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
 
