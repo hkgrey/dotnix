@@ -238,6 +238,7 @@
       # General
       theme.enable = true;
       treesitter.enable = true;
+      lsp.enable = true;
       lsp.formatOnSave = true;
 
       # Languages - base settings
@@ -308,6 +309,11 @@
 
       # Multi-purpose search and picker utility
       telescope.enable = true;
+
+      minimap = {
+        minimap-vim.enable = true;
+        codewindow.enable = true;
+      };
     };
   };
 
