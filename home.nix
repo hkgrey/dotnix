@@ -305,6 +305,9 @@
 
       # Statusline
       statusline.lualine.enable = true;
+
+      # Multi-purpose search and picker utility
+      telescope.enable = true;
     };
   };
 
