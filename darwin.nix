@@ -1,8 +1,11 @@
-{ pkgs, pkgsUnstable, lib, config, ... }:
-let
-
-in
 {
+  pkgs,
+  pkgsUnstable,
+  lib,
+  config,
+  ...
+}: let
+in {
   ##################################################################################################
   ### Configuring Nix + Nix-Darwin
   ##################################################################################################
@@ -17,16 +20,16 @@ in
   #   The default Nix build user group ID was changed from 30000 to 350.
   # You are currently managing Nix build users with nix-darwin, but your
   # nixbld group has GID 350, whereas we expected 30000.
-  # 
+  #
   # Possible causes include setting up a new Nix installation with an
   # existing nix-darwin configuration, setting up a new nix-darwin
   # installation with an existing Nix installation, or manually increasing
   # your `system.stateVersion` setting.
-  # 
+  #
   # You can set the configured group ID to match the actual value:
-  # 
+  #
   #     ids.gids.nixbld = 350;
-  # 
+  #
   # We do not recommend trying to change the group ID with macOS user
   # management tools without a complete uninstallation and reinstallation
   # of Nix.
@@ -90,47 +93,48 @@ in
   ### Package Management (via nixpkgs and homebrew)
   ##################################################################################################
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "1password-cli"
-    "ngrok"
-    "notion-app"
-    "raycast"
-    "tableplus"
-    "terraform"
-    "vscode"
-    "vscode-extension-MS-python-vscode-pylance"
-    "Xcode.app"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password-cli"
+      "ngrok"
+      "notion-app"
+      "raycast"
+      "tableplus"
+      "terraform"
+      "vscode"
+      "vscode-extension-MS-python-vscode-pylance"
+      "Xcode.app"
+    ];
 
   environment.variables = {
     DO_NOT_TRACK = "1";
   };
 
   # Provided by nixpkgs
-  environment.systemPackages = [
-    # vulnix FIXME Enable with overlay
-  ]
-  ++ (with pkgsUnstable;
+  environment.systemPackages =
     [
-      # devenv # easy nix project envs
-      # mas # Mac App Store command line interface
-      # AI
-      claude-code
-
-      # Databases
-      duckdb
-      clickhouse-lts
-
-      # Programming Languages and Environments
-      evcxr
-      uv
-
-      # Data
-      tbls # Tool for documenting sql databases (postgres + clickhouse support)
+      # vulnix FIXME Enable with overlay
     ]
-  )
-  ++ (with pkgs;
-    [
+    ++ (
+      with pkgsUnstable; [
+        # devenv # easy nix project envs
+        # mas # Mac App Store command line interface
+        # AI
+        claude-code
+
+        # Databases
+        duckdb
+        clickhouse-lts
+
+        # Programming Languages and Environments
+        evcxr
+        uv
+
+        # Data
+        tbls # Tool for documenting sql databases (postgres + clickhouse support)
+      ]
+    )
+    ++ (with pkgs; [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
       coreutils
@@ -158,7 +162,7 @@ in
       capnproto
 
       # Linters + Formatters
-      nixpkgs-fmt
+      alejandra # Nix formatter (nixpkgs-fmt is archived)
       sleek # CLI tool for formatting SQL
       sqlfluff # SQL formatter that supports Postgres and ClickHouse
       treefmt # Runs all formatters
@@ -243,7 +247,7 @@ in
       "micro-snitch" # camera + mic monitor
       "mullvadvpn" # privacy vpn
       "protonvpn" # business vpn
-      # "orbstack" # docker desktop alternative 
+      # "orbstack" # docker desktop alternative
       # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
       "slack"
       "snowflake-snowsql"
@@ -293,7 +297,7 @@ in
     };
   };
 
-  # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys: 
+  # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys:
   #   - Command key -> Option
   #   - Option key -> Commmand
   system.keyboard = {

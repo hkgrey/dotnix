@@ -18,42 +18,49 @@
     };
   };
 
-  outputs = { home-manager, nix-darwin, nixpkgs-unstable, nvf, ... }:
-    {
-      darwinConfigurations."Henelis-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {
-          pkgsUnstable = import nixpkgs-unstable {
-            system = "aarch64-darwin";
-            config = {
-              allowUnfreePredicate = pkg: builtins.elem (nixpkgs-unstable.lib.getName pkg) [
+  outputs = {
+    home-manager,
+    nix-darwin,
+    nixpkgs-unstable,
+    nvf,
+    ...
+  }: {
+    darwinConfigurations."Henelis-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      specialArgs = {
+        pkgsUnstable = import nixpkgs-unstable {
+          system = "aarch64-darwin";
+          config = {
+            allowUnfreePredicate = pkg:
+              builtins.elem (nixpkgs-unstable.lib.getName pkg) [
                 "claude-code"
               ];
-            };
           };
         };
-        modules = [
-          ./darwin.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.hkgrey = import ./home.nix;
-            home-manager.extraSpecialArgs = {
-              pkgsUnstable = nixpkgs-unstable {
-                system = "aarch64-darwin";
-                config = {
-                  allowUnfreePredicate = pkg: builtins.elem (nixpkgs-unstable.lib.getName pkg) [
+      };
+      modules = [
+        ./darwin.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.hkgrey = import ./home.nix;
+          home-manager.extraSpecialArgs = {
+            pkgsUnstable = nixpkgs-unstable {
+              system = "aarch64-darwin";
+              config = {
+                allowUnfreePredicate = pkg:
+                  builtins.elem (nixpkgs-unstable.lib.getName pkg) [
                     "claude-code"
                   ];
-                };
               };
             };
-            home-manager.sharedModules = [
-              nvf.homeManagerModules.default
-            ];
-          }
-        ];
-      };
+          };
+          home-manager.sharedModules = [
+            nvf.homeManagerModules.default
+          ];
+        }
+      ];
     };
+  };
 }

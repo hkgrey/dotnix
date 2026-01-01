@@ -1,12 +1,15 @@
-{ pkgs, pkgsUnstable, ... }:
-# let 
+{
+  pkgs,
+  pkgsUnstable,
+  ...
+}:
+# let
 #   op-cred-helper = pkgs.writeShellApplication {
 #     name = "op-cred-helper";
 #     runtimeInputs = [ pkgs._1password-cli ];
 #     text = ''
 #       vault="$1"
 #       secret_id="$2"
-      
 #       cat <<END | op inject
 #       {
 #         "Version": 1,
@@ -16,7 +19,6 @@
 #       END
 #     '';
 #   };
-
 # in
 {
   ##################################################################################################
@@ -41,7 +43,6 @@
   ## See available configuration options at either:
   ## * Search - https://home-manager-options.extranix.com
   ## * Manual - https://nix-community.github.io/home-manager/options.xhtml
-
 
   ## TODO Enable and check
   programs.awscli.enable = true;
@@ -94,7 +95,6 @@
     ## Per https://github.com/nix-community/home-manager/blob/bb4b25b302dbf0f527f190461b080b5262871756/modules/programs/bash.nix#L86
     # Modify default option set to remove macOS-incompatible options
     shellOptions = [
-
       # Append to history file rather than replacing it.
       "histappend"
 
@@ -137,48 +137,48 @@
   # programs.ghostty = {
   #   enableBashIntegration = true;
   #   installBatSyntax = true;
-    # settings = {
-    #   theme = "catppuccin-mocha";
-    #   font-size = 10;
-    #   keybind = [
-    #     "ctrl+h=goto_split:left"
-    #     "ctrl+l=goto_split:right"
-    #   ];
-    # };
-    #
-    # themes = {
-    #   catppuccin-mocha = {
-    #     background = "1e1e2e";
-    #     cursor-color = "f5e0dc";
-    #     foreground = "cdd6f4";
-    #     palette = [
-    #       "0=#45475a"
-    #       "1=#f38ba8"
-    #       "2=#a6e3a1"
-    #       "3=#f9e2af"
-    #       "4=#89b4fa"
-    #       "5=#f5c2e7"
-    #       "6=#94e2d5"
-    #       "7=#bac2de"
-    #       "8=#585b70"
-    #       "9=#f38ba8"
-    #       "10=#a6e3a1"
-    #       "11=#f9e2af"
-    #       "12=#89b4fa"
-    #       "13=#f5c2e7"
-    #       "14=#94e2d5"
-    #       "15=#a6adc8"
-    #     ];
-    #     selection-background = "353749";
-    #     selection-foreground = "cdd6f4";
-    #   };
-    # };
+  # settings = {
+  #   theme = "catppuccin-mocha";
+  #   font-size = 10;
+  #   keybind = [
+  #     "ctrl+h=goto_split:left"
+  #     "ctrl+l=goto_split:right"
+  #   ];
+  # };
+  #
+  # themes = {
+  #   catppuccin-mocha = {
+  #     background = "1e1e2e";
+  #     cursor-color = "f5e0dc";
+  #     foreground = "cdd6f4";
+  #     palette = [
+  #       "0=#45475a"
+  #       "1=#f38ba8"
+  #       "2=#a6e3a1"
+  #       "3=#f9e2af"
+  #       "4=#89b4fa"
+  #       "5=#f5c2e7"
+  #       "6=#94e2d5"
+  #       "7=#bac2de"
+  #       "8=#585b70"
+  #       "9=#f38ba8"
+  #       "10=#a6e3a1"
+  #       "11=#f9e2af"
+  #       "12=#89b4fa"
+  #       "13=#f5c2e7"
+  #       "14=#94e2d5"
+  #       "15=#a6adc8"
+  #     ];
+  #     selection-background = "353749";
+  #     selection-foreground = "cdd6f4";
+  #   };
+  # };
   # };
 
   # Gitconfig written to ~/.config/git/config
   programs.git.enable = true;
   programs.git = {
-    includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
+    includes = [{path = "~/.config/nixpkgs/gitconfig";}];
     ignores = [
       ".DS_Store"
       "*.local"
@@ -231,12 +231,64 @@
 
   programs.nvf = {
     enable = true;
-    settings = {
-      vim = {
-        viAlias = true;
-        vimAlias = true;
-        theme.enable = true;
-        # Add your nvf configuration options here
+    settings.vim = {
+      viAlias = true;
+      vimAlias = true;
+
+      # General
+      theme.enable = true;
+      treesitter.enable = true;
+      lsp.formatOnSave = true;
+
+      # Languages - base settings
+      languages = {
+        enableFormat = true;
+        enableTreesitter = true;
+        enableExtraDiagnostics = true;
+
+        # Nix - nil LSP (nixpkgs-fmt is archived, alejandra is default)
+        nix = {
+          enable = true;
+          extraDiagnostics.enable = true;
+          format.type = ["alejandra"];
+          lsp.enable = true;
+          lsp.servers = ["nil"];
+        };
+
+        # Python - ruff + basedpyright (open-source pylance equivalent)
+        python = {
+          enable = true;
+          format.type = [
+            "ruff"
+            "ruff-check"
+            "isort"
+          ];
+          lsp.enable = true;
+          lsp.servers = ["basedpyright"];
+        };
+
+        # Rust - rust-analyzer + rustfmt + crates.nvim
+        rust = {
+          enable = true;
+          extensions.crates-nvim.enable = true;
+          format.type = ["rustfmt"];
+          lsp.enable = true;
+        };
+
+        # TypeScript/JS - ts_ls + prettier + eslint
+        ts = {
+          enable = true;
+          extraDiagnostics.enable = true;
+          format.type = ["prettier"];
+          lsp.enable = true;
+          lsp.servers = ["ts_ls"];
+        };
+      };
+
+      # Git (similar to GitLens)
+      git = {
+        gitsigns.enable = true;
+        vim-fugitive.enable = true;
       };
     };
   };
@@ -258,7 +310,7 @@
 
   programs.pylint.enable = true;
   programs.pylint = {
-    settings = { };
+    settings = {};
   };
 
   programs.ripgrep.enable = true;
@@ -287,7 +339,7 @@
         "fontSize" = 18;
         "formatOnPaste" = true;
         "tabSize" = 2;
-        "rulers" = [ 100 ];
+        "rulers" = [100];
       };
       "files.trimTrailingWhitespace" = false;
       "markdown.preview.doubleClickToSwitchToEditor" = false;
@@ -306,7 +358,7 @@
       "nix.serverSettings" = {
         "nil" = {
           "formatting" = {
-            "command" = [ "nixpkgs-fmt" ];
+            "command" = ["nixpkgs-fmt"];
           };
         };
       };
@@ -317,7 +369,7 @@
     extensions =
       # TODO Requires stable and unstable nixpkgs
       # with pkgs-unstable.vscode-extensions; [
-      #   # Jinja Templating 
+      #   # Jinja Templating
       #   samuelcolvin.jinjahtml # *.{sql,js,etc}.jinja syntax highlighting)
       # ] ++
       (with pkgs.vscode-extensions; [
@@ -358,10 +410,9 @@
         github.vscode-github-actions
         github.vscode-pull-request-github
 
-
         # General
-      ]) ++
-      pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      ])
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           # Automatically load environments with direnv
           name = "claude-code";
@@ -406,8 +457,8 @@
           sha256 = "sha256-grkusc1UWWxpD25f4bnoBSumjwKuIum+jRMJ+gt1d94=";
         }
         {
-          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
-          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
+          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array
+          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations
           # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables
           name = "vscode-data-preview";
           publisher = "randomfractalsinc";
