@@ -290,6 +290,21 @@
         gitsigns.enable = true;
         vim-fugitive.enable = true;
       };
+
+      # UI enhancements
+      ui = {
+        illuminate.enable = true; # highlight word under cursor
+        breadcrumbs.enable = true; # navbuddy - code outline navigation (like aerial)
+      };
+
+      # Keybinding hints (like which-key)
+      binds.whichKey.enable = true;
+
+      # Completion (blink-cmp - faster than nvim-cmp)
+      autocomplete.blink-cmp.enable = true;
+
+      # Statusline
+      statusline.lualine.enable = true;
     };
   };
 
