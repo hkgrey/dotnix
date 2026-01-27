@@ -172,11 +172,14 @@ in {
       terraform
 
       # Data
+      pqrs # cli tool for inspecting parquet + arrow
       # sqlcheck # SQL Anti-Pattern Linter
       tableplus # db client
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
 
       # Data Store
+      datafusion-cli
+      localstack # snowflake emulator
       postgresql_16
       # snowflake-cli  # bugged
       # snowsql # unsupported os/arch
