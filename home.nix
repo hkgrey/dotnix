@@ -229,6 +229,9 @@
   #   ];
   # };
 
+  # Build time warnings - 
+  # bad JSON log message from the derivation builder: [json.exception.parse_error.101] 
+  # parse error at line 1, column 55: syntax error while parsing value - invalid string: missing closing quote; last read: '"neovimRequireCheckHo'
   programs.nvf = {
     enable = true;
     settings.vim = {
