@@ -242,13 +242,13 @@ in {
       "1password"
       # "1password-cli"
       "dash"
-      "docker" # for docker-desktop (dupe hosts issue in bi_stack)
+      "docker-desktop" # for docker-desktop (dupe hosts issue in bi_stack)
       "firefox" # browser
       "ghostty" # terminal
       "linear-linear" # tracker
       "little-snitch" # firewall
       "micro-snitch" # camera + mic monitor
-      "mullvadvpn" # privacy vpn
+      "mullvad-vpn" # privacy vpn
       "protonvpn" # business vpn
       # "orbstack" # docker desktop alternative
       # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
