@@ -126,6 +126,13 @@ in {
         duckdb
         clickhouse-lts
 
+        # GB
+        diesel-cli # Database tool for working with Rust projects that use Diesel
+
+        # GUI Apps
+        notion-app # team documentation
+        raycast # alfred/spotlight alternative, productivity tool
+
         # Programming Languages and Environments
         evcxr
         uv
@@ -140,10 +147,9 @@ in {
       coreutils
 
       # GB
-      diesel-cli # Database tool for working with Rust projects that use Diesel
+      gh # GitHub CLI tool
       mosh # https://mosh.org/#techinfo
       ngrok # serve local apps over public internet
-      notion-app # team documentation
       step-cli # jwt tooling
       just # command runner
       jwt-cli # jwt tooling
@@ -212,7 +218,6 @@ in {
       sbomnix
 
       # GUI Apps
-      raycast # alfred/spotlight alternative, productivity tool
       # zulip # chat
       zulip-term
 
@@ -279,7 +284,7 @@ in {
         "/System/Applications/Mail.app"
         "/Applications/Ghostty.app" # via brew cask
         "${pkgs.raycast}/Applications/Raycast.app"
-        "${pkgs.notion-app}/Applications/Notion.app"
+        # "${pkgs.notion-app}/Applications/Notion.app" # this one is broken
         "/Applications/Mullvad\ VPN.app" # via brew cask
         "/System/Volumes/Data/Applications/ProtonVPN.app" # via brew cask
         "/System/Volumes/Data/Applications/PDF\ Expert.app" # via brew cask

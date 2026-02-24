@@ -55,12 +55,12 @@
     #   };
     # };
     # Configuration written to $HOME/.aws/config.
-    settings = {
-      "default" = {
-        region = "us-west-2";
-        output = "json";
-      };
-    };
+    # settings = {
+    #   "default" = {
+    #     region = "us-west-2";
+    #     output = "json";
+    #   };
+    # };
   };
 
   programs.bash.enable = true;
@@ -440,6 +440,12 @@
         # General
       ])
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "capnp";
+          publisher = "norgor";
+          version = "0.2.1";
+          sha256 = "sha256-ruKtc/mBr2Ric3PJI21S4+GGGCuRMVt+6pqYkXNWmB0=";
+        }
         {
           # Automatically load environments with direnv
           name = "claude-code";

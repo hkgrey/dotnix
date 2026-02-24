@@ -16,6 +16,11 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    greyli = {
+      url = "git+ssh://git@github.com/greybeam/greyli.git";
+        # "github:greybeam/greyli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -23,6 +28,7 @@
     nix-darwin,
     nixpkgs-unstable,
     nvf,
+    greyli,
     ...
   }: {
     darwinConfigurations."Henelis-MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -34,6 +40,8 @@
             allowUnfreePredicate = pkg:
               builtins.elem (nixpkgs-unstable.lib.getName pkg) [
                 "claude-code"
+                "notion-app"
+                "raycast"
               ];
           };
         };
@@ -52,6 +60,8 @@
                 allowUnfreePredicate = pkg:
                   builtins.elem (nixpkgs-unstable.lib.getName pkg) [
                     "claude-code"
+                    "notion-app"
+                    "raycast"
                   ];
               };
             };
