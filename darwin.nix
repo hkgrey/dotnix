@@ -231,6 +231,9 @@ in {
   # Provided by nix-darwin.
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
+    taps = [
+      "columnar-tech/tap"
+    ];
     brews = lib.mkForce [
       # https://formulae.brew.sh/formula/{name}
 
@@ -245,6 +248,7 @@ in {
     ];
     casks = [
       "1password"
+      "columnar-tech/tap/dbc"
       # "1password-cli"
       "dash"
       "docker-desktop" # for docker-desktop (dupe hosts issue in bi_stack)
