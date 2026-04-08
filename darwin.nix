@@ -1,8 +1,11 @@
-{ pkgs, pkgsUnstable, lib, config, ... }:
-let
-
-in
 {
+  pkgs,
+  pkgsUnstable,
+  lib,
+  config,
+  ...
+}: let
+in {
   ##################################################################################################
   ### Configuring Nix + Nix-Darwin
   ##################################################################################################
@@ -17,16 +20,16 @@ in
   #   The default Nix build user group ID was changed from 30000 to 350.
   # You are currently managing Nix build users with nix-darwin, but your
   # nixbld group has GID 350, whereas we expected 30000.
-  # 
+  #
   # Possible causes include setting up a new Nix installation with an
   # existing nix-darwin configuration, setting up a new nix-darwin
   # installation with an existing Nix installation, or manually increasing
   # your `system.stateVersion` setting.
-  # 
+  #
   # You can set the configured group ID to match the actual value:
-  # 
+  #
   #     ids.gids.nixbld = 350;
-  # 
+  #
   # We do not recommend trying to change the group ID with macOS user
   # management tools without a complete uninstallation and reinstallation
   # of Nix.
@@ -41,7 +44,7 @@ in
     #   { darwin-config = "$HOME/.nixpkgs/darwin-configuration.nix"; }
     #   "/nix/var/nix/profiles/per-user/root/channels"
     # ];
-    
+
     optimise.automatic = true;
 
     settings = {
@@ -60,24 +63,26 @@ in
         "https://cache.nixos.org/"
         "https://iohk.cachix.org"
         "https://nix-community.cachix.org"
+        "https://nvf.cachix.org"
       ];
       "extra-trusted-public-keys" = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nvf.cachix.org-1:GMQWiUhZ6ux9D5CvFFMwnc2nFrUHTeGaXRlVBXo+naI="
       ];
       trusted-users = [
         "root"
-        "jdoe"
+        "hkgrey"
       ];
     };
   };
 
-  system.primaryUser = "jdoe";
+  system.primaryUser = "hkgrey";
 
-  users.users.jdoe = {
-    name = "jdoe";
-    home = "/Users/jdoe";
+  users.users.hkgrey = {
+    name = "hkgrey";
+    home = "/Users/hkgrey";
   };
 
   # Create /etc/zshrc | /etc/bashrc that loads the nix-darwin environment.
@@ -88,69 +93,104 @@ in
   ### Package Management (via nixpkgs and homebrew)
   ##################################################################################################
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    # "blender"
-    "raycast"
-    "tableplus"
-    "terraform"
-    "vscode"
-    "Xcode.app"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password-cli"
+      "ngrok"
+      "notion-app"
+      "raycast"
+      "spotify"
+      "tableplus"
+      "terraform"
+      "vscode"
+      "vscode-extension-MS-python-vscode-pylance"
+      "Xcode.app"
+    ];
 
   environment.variables = {
     DO_NOT_TRACK = "1";
   };
 
   # Provided by nixpkgs
-  environment.systemPackages = [
-    # tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
-    # vulnix FIXME Enable with overlay
-  ] 
-  ++ (with pkgsUnstable;
+  environment.systemPackages =
     [
-      devenv # easy nix project envs
-      mas # Mac App Store command line interface
-      tbls # Tool for documenting sql databases (postgres + clickhouse support)
+      # vulnix FIXME Enable with overlay
     ]
-  )
-    ++ (with pkgs;
-    [
+    ++ (
+      with pkgsUnstable; [
+        # devenv # easy nix project envs
+        # mas # Mac App Store command line interface
+        # AI
+        claude-code
+
+        # Databases
+        duckdb
+        clickhouse-lts
+        sqlite
+
+        # GB
+        diesel-cli # Database tool for working with Rust projects that use Diesel
+
+        # GUI Apps
+        notion-app # team documentation
+        raycast # alfred/spotlight alternative, productivity tool
+
+        # Programming Languages and Environments
+        evcxr
+        uv
+
+        # Data
+        tbls # Tool for documenting sql databases (postgres + clickhouse support)
+      ]
+    )
+    ++ (with pkgs; [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
+      coreutils
+
       # GB
+      gh # GitHub CLI tool
       mosh # https://mosh.org/#techinfo
-      pipx
-      uv
-      postgresql_16
+      ngrok # serve local apps over public internet
+      step-cli # jwt tooling
+      just # command runner
+      jwt-cli # jwt tooling
+      _1password-cli
+      brave # a browser
+      s5cmd # fast s3
 
       # Programming Languages and Environments
       go
       python313
-      # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
-      # nodejs_22
-      # nodePackages.pnpm
+      nodejs_24
+      pipx
+      rustup
+
+      # IPC
+      capnproto
 
       # Linters + Formatters
-      haskellPackages.cabal-fmt
-      hlint
-      nixpkgs-fmt
-      ormolu
+      alejandra # Nix formatter (nixpkgs-fmt is archived)
+      sleek # CLI tool for formatting SQL
       sqlfluff # SQL formatter that supports Postgres and ClickHouse
       treefmt # Runs all formatters
 
       # Infra
-      dhall
       k9s
       terraform
 
       # Data
-      sqlcheck # SQL Anti-Pattern Linter
+      pqrs # cli tool for inspecting parquet + arrow
+      # sqlcheck # SQL Anti-Pattern Linter
       tableplus # db client
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
 
       # Data Store
-      duckdb
-      clickhouse
+      datafusion-cli
+      localstack # snowflake emulator
+      postgresql_16
+      # snowflake-cli  # bugged
+      # snowsql # unsupported os/arch
       sqlite
 
       # Shell
@@ -161,6 +201,7 @@ in
       bottom # system monitoring
       dasht # cli for viewing dash docsets
       delta # for diff-ing
+      dust # better du
       # glances # system monitoring
       jc # convert cli command outputs to json
       procs # modern `ps`
@@ -172,16 +213,15 @@ in
       cachix
       haskellPackages.nix-derivation
       nil # https://github.com/oxalica/nil#readme
-      nix-direnv
+      # nix-direnv
       nix-info
       nix-tree
       nix-update # for pr-ing version updates to nixpkgs
       sbomnix
 
       # GUI Apps
-      # blender # 3D Creation/Animation/Publishing System
-      raycast # alfred/spotlight alternative, productivity tool
-      tailscale # work vpn
+      # zulip # chat
+      zulip-term
 
       # Other
 
@@ -193,27 +233,38 @@ in
   # Provided by nix-darwin.
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
+    taps = [
+      "columnar-tech/tap"
+    ];
     brews = lib.mkForce [
       # https://formulae.brew.sh/formula/{name}
-      
+
+      # Containers
+      "hub-tool"
+
       # Dev dependencies
+      "snowflake-cli"
 
       # Other
       # { name = "mas"; }
     ];
     casks = [
       "1password"
-      "1password-cli"
-      "blender"
+      "columnar-tech/tap/dbc"
+      # "1password-cli"
       "dash"
-      "docker" # for docker-desktop (dupe hosts issue in bi_stack)
+      "docker-desktop" # for docker-desktop (dupe hosts issue in bi_stack)
       "firefox" # browser
+      "ghostty" # terminal
+      "linear-linear" # tracker
       "little-snitch" # firewall
       "micro-snitch" # camera + mic monitor
-      "mullvadvpn" # privacy vpn
-      # "orbstack" # docker desktop alternative 
+      "mullvad-vpn" # privacy vpn
+      "protonvpn" # business vpn
+      # "orbstack" # docker desktop alternative
       # ^ Conflicts w/ "docker" cask - Error: It seems there is already a Binary at '/usr/local/bin/docker-credential-osxkeychain'
       "slack"
+      "snowflake-snowsql"
       "zulip" # chat app
     ];
     masApps = {
@@ -237,10 +288,14 @@ in
       persistent-apps = [
         "/Applications/Firefox.app"
         "/System/Applications/Mail.app"
-        "/System/Applications/Utilities/Terminal.app"
+        "/Applications/Ghostty.app" # via brew cask
         "${pkgs.raycast}/Applications/Raycast.app"
+        # "${pkgs.notion-app}/Applications/Notion.app" # this one is broken
         "/Applications/Mullvad\ VPN.app" # via brew cask
+        "/System/Volumes/Data/Applications/ProtonVPN.app" # via brew cask
+        "/System/Volumes/Data/Applications/PDF\ Expert.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
+        "${pkgs.spotify}/Applications/Spotify.app"
       ];
       show-process-indicators = true;
       show-recents = false;
@@ -257,9 +312,9 @@ in
     };
   };
 
-  # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys: 
-    #   - Command key -> Option
-    #   - Option key -> Commmand
+  # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys:
+  #   - Command key -> Option
+  #   - Option key -> Commmand
   system.keyboard = {
     enableKeyMapping = true;
     remapCapsLockToEscape = true;
@@ -275,20 +330,8 @@ in
   environment = {
     shellAliases = {
       ll = "ls -l";
+      snowsql = "/Applications/SnowSQL.app/Contents/MacOS/snowsql";
+      rupl = "evcxr";
     };
   };
-
-  # TODO Move from `home.nix:programs.bash.bashrcExtra`????
-  # systemPath = [
-  #   "/usr/local/opt/postgresql@11/bin"
-  #   "$HOME/.ghcup/bin"
-  # ];
-
-  # TODO Move from `home.nix:home.sessionVariables`????
-  # variables = {
-  #   EDITOR = "code";
-  #   # Just keep copy of ./etc-nix files in .config/nix since nix.settings and nix.extraOptions refuse to work
-  #   # FIXME 1/2024 - Settings in `darwin.nix` get applied to /etc/nix/nix.conf before this changes?
-  #   NIX_CONF_DIR = "$HOME/.config/nix";
-  # };
 }

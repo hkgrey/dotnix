@@ -1,4 +1,25 @@
-{ pkgs, pkgsUnstable, ... }:
+{
+  pkgs,
+  pkgsUnstable,
+  ...
+}:
+# let
+#   op-cred-helper = pkgs.writeShellApplication {
+#     name = "op-cred-helper";
+#     runtimeInputs = [ pkgs._1password-cli ];
+#     text = ''
+#       vault="$1"
+#       secret_id="$2"
+#       cat <<END | op inject
+#       {
+#         "Version": 1,
+#         "AccessKeyId": "{{ op://''${vault}/''${secret_id}/access key id }}",
+#         "SecretAccessKey": "{{ op://''${vault}/''${secret_id}/secret access key }}"
+#       }
+#       END
+#     '';
+#   };
+# in
 {
   ##################################################################################################
   ### Configuring Nix + Home-Manager
@@ -12,7 +33,7 @@
   ##################################################################################################
 
   home.sessionVariables = {
-    EDITOR = "code";
+    EDITOR = "vi";
   };
 
   ##################################################################################################
@@ -23,27 +44,23 @@
   ## * Search - https://home-manager-options.extranix.com
   ## * Manual - https://nix-community.github.io/home-manager/options.xhtml
 
-
   ## TODO Enable and check
   programs.awscli.enable = true;
   programs.awscli = {
-    # Configuration written to $HOME/.aws/credentials.
-    #   credentials = {
-    #     "default" = {
-    #       "credential_process" = "${pkgs.pass}/bin/pass show aws";  # FIXME TODO Bitwarden??
-    # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/scripts/aws-bitwarden/aws-bitwarden.sh
-    # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/shell.nix#L177C1-L178C1
-    # "credential_process" = "${pkgs.bitwarden-cli}/bin/bw get username 'AWS Access Key'";  # FIXME TODO Bitwarden??
-    # https://github.com/greg-hellings/nixos-config/blob/a61b23c5f45399482f062ccee3350937b8205378/overlays/configure_aws_creds.nix#L4
-    #     };
+    # credentials = {
+    #   "default" = {
+    #       # https://tenmilesquare.com/resources/security/how-to-use-1password-to-securely-store-your-aws-credentials/
+    #       "credential_process" = "${op-cred-helper}/bin/op-cred-helper 'CLI Accessible' 'S3 Dev bucket access key'";
+    #       "region" = "us-west-2";
     #   };
+    # };
     # Configuration written to $HOME/.aws/config.
-    settings = {
-      "default" = {
-        region = "us-west-2";
-        output = "json";
-      };
-    };
+    # settings = {
+    #   "default" = {
+    #     region = "us-west-2";
+    #     output = "json";
+    #   };
+    # };
   };
 
   programs.bash.enable = true;
@@ -66,18 +83,18 @@
       # export PATH="/etc/profiles/per-user/jdoe/bin:$PATH"
 
       export PATH="/opt/homebrew/bin:$PATH"
-      export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
-      export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
-      export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
+      # export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
+      # export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
+      # export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
       export PATH="$HOME/.ghcup/bin:$PATH"
       export PATH=$PATH:$HOME/go/bin
+      export PATH=$PATH:$HOME/.cargo/bin
     '';
 
     ## Per https://github.com/nix-community/home-manager/blob/bb4b25b302dbf0f527f190461b080b5262871756/modules/programs/bash.nix#L86
     # Modify default option set to remove macOS-incompatible options
     shellOptions = [
-
       # Append to history file rather than replacing it.
       "histappend"
 
@@ -94,13 +111,13 @@
     ];
   };
 
-  programs.direnv.enable = true;
-  programs.direnv = {
-    nix-direnv.enable = true;
+  # programs.direnv.enable = true;
+  # programs.direnv = {
+  #   nix-direnv.enable = true;
 
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-  };
+  #   enableBashIntegration = true;
+  #   enableNushellIntegration = true;
+  # };
 
   programs.eza.enable = true;
   programs.eza = {
@@ -116,16 +133,72 @@
     enableBashIntegration = true;
   };
 
+  # programs.ghostty.enable = false; # currently marked 'broken'
+  # programs.ghostty = {
+  #   enableBashIntegration = true;
+  #   installBatSyntax = true;
+  # settings = {
+  #   theme = "catppuccin-mocha";
+  #   font-size = 10;
+  #   keybind = [
+  #     "ctrl+h=goto_split:left"
+  #     "ctrl+l=goto_split:right"
+  #   ];
+  # };
+  #
+  # themes = {
+  #   catppuccin-mocha = {
+  #     background = "1e1e2e";
+  #     cursor-color = "f5e0dc";
+  #     foreground = "cdd6f4";
+  #     palette = [
+  #       "0=#45475a"
+  #       "1=#f38ba8"
+  #       "2=#a6e3a1"
+  #       "3=#f9e2af"
+  #       "4=#89b4fa"
+  #       "5=#f5c2e7"
+  #       "6=#94e2d5"
+  #       "7=#bac2de"
+  #       "8=#585b70"
+  #       "9=#f38ba8"
+  #       "10=#a6e3a1"
+  #       "11=#f9e2af"
+  #       "12=#89b4fa"
+  #       "13=#f5c2e7"
+  #       "14=#94e2d5"
+  #       "15=#a6adc8"
+  #     ];
+  #     selection-background = "353749";
+  #     selection-foreground = "cdd6f4";
+  #   };
+  # };
+  # };
+
   # Gitconfig written to ~/.config/git/config
   programs.git.enable = true;
   programs.git = {
-    includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
-    # ignores = [
-    #   *.local
-    # ];
-    userEmail = "fast.can6663@fastmail.com";
-    userName = "John Doe";
+    includes = [{path = "~/.config/nixpkgs/gitconfig";}];
+    ignores = [
+      ".DS_Store"
+      "*.local"
+      "*.pem"
+      "*.p8"
+      ".claude"
+      "*scratch/"
+    ];
+    settings = {
+      user.email = "foo@bar.com";
+      user.name = "Heneli";
+      extraConfig = {
+        init = {
+          defaultBranch = "main";
+        };
+      };
+    };
   };
+
+  programs.java.enable = true;
 
   programs.jq.enable = true;
 
@@ -141,18 +214,110 @@
     };
   };
 
-  programs.neovim.enable = true;
-  programs.neovim = {
-    defaultEditor = false;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
+  # Use NVF instead of home-manager module for neovim
+  # programs.neovim.enable = true;
+  # programs.neovim = {
+  #   defaultEditor = false;
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  #
+  #   extraPackages = [ ];
+  #   extraPython3Packages = ps: [ ];
+  #   plugins = with pkgs.vimPlugins; [
+  #     telescope-nvim
+  #   ];
+  # };
 
-    extraPackages = [ ];
-    extraPython3Packages = ps: [ ];
-    plugins = with pkgs.vimPlugins; [
-      telescope-nvim
-    ];
+  # Build time warnings - 
+  # bad JSON log message from the derivation builder: [json.exception.parse_error.101] 
+  # parse error at line 1, column 55: syntax error while parsing value - invalid string: missing closing quote; last read: '"neovimRequireCheckHo'
+  programs.nvf = {
+    enable = true;
+    settings.vim = {
+      viAlias = true;
+      vimAlias = true;
+
+      # General
+      theme.enable = true;
+      treesitter.enable = true;
+      lsp.enable = true;
+      lsp.formatOnSave = true;
+
+      # Languages - base settings
+      languages = {
+        enableFormat = true;
+        enableTreesitter = true;
+        enableExtraDiagnostics = true;
+
+        # Nix - nil LSP (nixpkgs-fmt is archived, alejandra is default)
+        nix = {
+          enable = true;
+          extraDiagnostics.enable = true;
+          format.type = ["alejandra"];
+          lsp.enable = true;
+          lsp.servers = ["nil"];
+        };
+
+        # Python - ruff + basedpyright (open-source pylance equivalent)
+        python = {
+          enable = true;
+          format.type = [
+            "ruff"
+            "ruff-check"
+            "isort"
+          ];
+          lsp.enable = true;
+          lsp.servers = ["basedpyright"];
+        };
+
+        # Rust - rust-analyzer + rustfmt + crates.nvim
+        rust = {
+          enable = true;
+          extensions.crates-nvim.enable = true;
+          format.type = ["rustfmt"];
+          lsp.enable = true;
+        };
+
+        # TypeScript/JS - ts_ls + prettier + eslint
+        ts = {
+          enable = true;
+          extraDiagnostics.enable = true;
+          format.type = ["prettier"];
+          lsp.enable = true;
+          lsp.servers = ["ts_ls"];
+        };
+      };
+
+      # Git (similar to GitLens)
+      git = {
+        gitsigns.enable = true;
+        vim-fugitive.enable = true;
+      };
+
+      # UI enhancements
+      ui = {
+        illuminate.enable = true; # highlight word under cursor
+        breadcrumbs.enable = true; # navbuddy - code outline navigation (like aerial)
+      };
+
+      # Keybinding hints (like which-key)
+      binds.whichKey.enable = true;
+
+      # Completion (blink-cmp - faster than nvim-cmp)
+      autocomplete.blink-cmp.enable = true;
+
+      # Statusline
+      statusline.lualine.enable = true;
+
+      # Multi-purpose search and picker utility
+      telescope.enable = true;
+
+      minimap = {
+        minimap-vim.enable = true;
+        codewindow.enable = true;
+      };
+    };
   };
 
   programs.nix-index.enable = true;
@@ -172,8 +337,14 @@
 
   programs.pylint.enable = true;
   programs.pylint = {
-    settings = { };
+    settings = {};
   };
+
+  programs.ripgrep.enable = true;
+
+  programs.ripgrep-all.enable = true;
+
+  programs.spotify-player.enable = true;
 
   programs.tmux.enable = true;
   programs.tmux = {
@@ -188,7 +359,8 @@
     mutableExtensionsDir = false;
   };
   programs.vscode.profiles.default = {
-    enableUpdateCheck = false;
+    enableUpdateCheck = false; # yolo
+    enableExtensionUpdateCheck = true;
   };
   programs.vscode.profiles.default = {
     userSettings = {
@@ -196,7 +368,7 @@
         "fontSize" = 18;
         "formatOnPaste" = true;
         "tabSize" = 2;
-        "rulers" = [ 100 ];
+        "rulers" = [100];
       };
       "files.trimTrailingWhitespace" = false;
       "markdown.preview.doubleClickToSwitchToEditor" = false;
@@ -215,17 +387,18 @@
       "nix.serverSettings" = {
         "nil" = {
           "formatting" = {
-            "command" = [ "nixpkgs-fmt" ];
+            "command" = ["nixpkgs-fmt"];
           };
         };
       };
+      "svelte.enable-ts-plugin" = true;
       "window.titleBarStyle" = "native";
     };
 
     extensions =
       # TODO Requires stable and unstable nixpkgs
       # with pkgs-unstable.vscode-extensions; [
-      #   # Jinja Templating 
+      #   # Jinja Templating
       #   samuelcolvin.jinjahtml # *.{sql,js,etc}.jinja syntax highlighting)
       # ] ++
       (with pkgs.vscode-extensions; [
@@ -234,15 +407,17 @@
         jnoortheen.nix-ide
         # mkhl.direnv
 
-        # Python
-        ms-python.python
+        # Rust
+        rust-lang.rust-analyzer
 
-        # Haskell
-        justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell
-        haskell.haskell
+        # Python
+        charliermarsh.ruff
+        ms-python.python
+        ms-python.vscode-pylance
 
         # JS + TS
         esbenp.prettier-vscode
+        svelte.svelte-vscode
 
         # Documentation
         unifiedjs.vscode-mdx
@@ -264,23 +439,21 @@
         github.vscode-github-actions
         github.vscode-pull-request-github
 
-
         # General
-      ]) ++
-      pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      ])
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
-          # Avro Schema IDL Syntax highlighting (.avsc)
-          name = "avro";
-          publisher = "streetsidesoftware";
-          version = "0.5.0";
-          sha256 = "sha256-8st8PJcqh132IZfL1qREfFpFw/esoG4KHxB3ubttH0o=";
+          name = "capnp";
+          publisher = "norgor";
+          version = "0.2.1";
+          sha256 = "sha256-ruKtc/mBr2Ric3PJI21S4+GGGCuRMVt+6pqYkXNWmB0=";
         }
         {
-          # Avro Record Viewer (.avro schema + binary format)
-          name = "avro-viewer";
-          publisher = "yasunari89";
-          version = "0.1.8";
-          sha256 = "sha256-LTCTCdbf/M2q45M34HCQoDEoDeFiOPUOKVcOLXIU9J0=";
+          # Automatically load environments with direnv
+          name = "claude-code";
+          publisher = "anthropic";
+          version = "1.0.31";
+          sha256 = "sha256-3brSSb6ERY0In5QRmv5F0FKPm7Ka/0wyiudLNRSKGBg=";
         }
         {
           # Automatically load environments with direnv
@@ -311,16 +484,16 @@
           version = "0.5.4";
           sha256 = "sha256-SMEqbpKYNck23zgULsdnsw4PS20XMPUpJ5kYh1fpd14=";
         }
-        # {
-        #   # Documentation with Zeal (linux kapeli/Dash.app alternetive)
-        #   name = "vscode-dash"; # configure in vscode's settings.json through nix
-        #   publisher = "deerawan";
-        #   version = "2.4.0";
-        #   sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
-        # }
         {
-          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
-          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
+          # Python Virtual Env Locator (useful for monorepos)
+          name = "python-envy";
+          publisher = "teticio";
+          version = "0.1.11";
+          sha256 = "sha256-grkusc1UWWxpD25f4bnoBSumjwKuIum+jRMJ+gt1d94=";
+        }
+        {
+          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array
+          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations
           # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables
           name = "vscode-data-preview";
           publisher = "randomfractalsinc";
