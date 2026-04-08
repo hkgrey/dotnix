@@ -111,13 +111,13 @@
     ];
   };
 
-  programs.direnv.enable = true;
-  programs.direnv = {
-    nix-direnv.enable = true;
+  # programs.direnv.enable = true;
+  # programs.direnv = {
+  #   nix-direnv.enable = true;
 
-    enableBashIntegration = true;
-    enableNushellIntegration = true;
-  };
+  #   enableBashIntegration = true;
+  #   enableNushellIntegration = true;
+  # };
 
   programs.eza.enable = true;
   programs.eza = {
@@ -343,6 +343,8 @@
   programs.ripgrep.enable = true;
 
   programs.ripgrep-all.enable = true;
+
+  programs.spotify-player.enable = true;
 
   programs.tmux.enable = true;
   programs.tmux = {

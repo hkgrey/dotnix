@@ -42,6 +42,7 @@
                 "claude-code"
                 "notion-app"
                 "raycast"
+                "spotify"
               ];
           };
         };
@@ -62,6 +63,7 @@
                     "claude-code"
                     "notion-app"
                     "raycast"
+                    "spotify"
                   ];
               };
             };

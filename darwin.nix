@@ -99,6 +99,7 @@ in {
       "ngrok"
       "notion-app"
       "raycast"
+      "spotify"
       "tableplus"
       "terraform"
       "vscode"
@@ -125,6 +126,7 @@ in {
         # Databases
         duckdb
         clickhouse-lts
+        sqlite
 
         # GB
         diesel-cli # Database tool for working with Rust projects that use Diesel
@@ -211,7 +213,7 @@ in {
       cachix
       haskellPackages.nix-derivation
       nil # https://github.com/oxalica/nil#readme
-      nix-direnv
+      # nix-direnv
       nix-info
       nix-tree
       nix-update # for pr-ing version updates to nixpkgs
@@ -293,6 +295,7 @@ in {
         "/System/Volumes/Data/Applications/ProtonVPN.app" # via brew cask
         "/System/Volumes/Data/Applications/PDF\ Expert.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
+        "${pkgs.spotify}/Applications/Spotify.app"
       ];
       show-process-indicators = true;
       show-recents = false;
