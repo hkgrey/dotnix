@@ -123,7 +123,11 @@ in {
         # AI
         claude-code
 
+        # Cloud
+        aws-sso-cli
+
         # Databases
+        dbmate
         duckdb
         clickhouse-lts
         sqlite
@@ -136,6 +140,8 @@ in {
         raycast # alfred/spotlight alternative, productivity tool
 
         # Programming Languages and Environments
+        cargo-deny
+        deno
         evcxr
         uv
 
@@ -160,11 +166,15 @@ in {
       s5cmd # fast s3
 
       # Programming Languages and Environments
+      cargo-sweep
       go
-      python313
+      python314
       nodejs_24
-      pipx
+      # pipx
       rustup
+
+      # Build tools
+      cmake # needed to build pycapnp from source (no pre-built wheels for Python 3.14)
 
       # IPC
       capnproto
@@ -173,7 +183,7 @@ in {
       alejandra # Nix formatter (nixpkgs-fmt is archived)
       sleek # CLI tool for formatting SQL
       sqlfluff # SQL formatter that supports Postgres and ClickHouse
-      treefmt # Runs all formatters
+      # treefmt # Runs all formatters
 
       # Infra
       k9s

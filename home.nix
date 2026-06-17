@@ -280,12 +280,12 @@
         };
 
         # TypeScript/JS - ts_ls + prettier + eslint
-        ts = {
+        typescript = {
           enable = true;
           extraDiagnostics.enable = true;
           format.type = ["prettier"];
           lsp.enable = true;
-          lsp.servers = ["ts_ls"];
+          lsp.servers = ["typescript-language-server"];
         };
       };
 
@@ -315,7 +315,10 @@
 
       minimap = {
         minimap-vim.enable = true;
-        codewindow.enable = true;
+        # codewindow.nvim calls nvim-treesitter.ts_utils, which was removed in
+        # the nvim-treesitter rewrite shipped in nixpkgs 26.05. Disabled until
+        # upstream codewindow is fixed; minimap-vim covers the minimap need.
+        # codewindow.enable = true;
       };
     };
   };
@@ -455,13 +458,13 @@
           version = "1.0.31";
           sha256 = "sha256-3brSSb6ERY0In5QRmv5F0FKPm7Ka/0wyiudLNRSKGBg=";
         }
-        {
-          # Automatically load environments with direnv
-          name = "direnv";
-          publisher = "mkhl";
-          version = "0.17.0";
-          sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
-        }
+        # {
+        #   # Automatically load environments with direnv
+        #   name = "direnv";
+        #   publisher = "mkhl";
+        #   version = "0.17.0";
+        #   sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
+        # }
         {
           # TODO Get from pkgs-unstable
           # Jinja Templating: *.{sql,js,etc}.jinja syntax highlighting
