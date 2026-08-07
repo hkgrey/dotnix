@@ -125,6 +125,7 @@ in {
 
         # Cloud
         aws-sso-cli
+        kubectx
 
         # Databases
         dbmate
@@ -211,6 +212,7 @@ in {
       bottom # system monitoring
       dasht # cli for viewing dash docsets
       delta # for diff-ing
+      difftastic # syntatic diffs
       dust # better du
       # glances # system monitoring
       jc # convert cli command outputs to json
@@ -218,6 +220,7 @@ in {
       tldr # quick usage guide when you don't need the full manpages
       tree # visualize directory tree
       visidata # Excel for CLI
+      yq # yaml jq
 
       # Nix-specific Tools
       cachix

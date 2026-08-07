@@ -55,7 +55,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.hkgrey = import ./home.nix;
           home-manager.extraSpecialArgs = {
-            pkgsUnstable = nixpkgs-unstable {
+            pkgsUnstable = import nixpkgs-unstable {
               system = "aarch64-darwin";
               config = {
                 allowUnfreePredicate = pkg:
