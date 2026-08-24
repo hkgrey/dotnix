@@ -348,7 +348,7 @@
           enable = true;
           format.type = [
             "ruff"
-            "ruff-check"
+            "ruff-fix"
             "isort"
           ];
           lsp.enable = true;

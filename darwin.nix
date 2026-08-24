@@ -142,6 +142,7 @@ in {
 
         # Programming Languages and Environments
         cargo-deny
+        cargo-nextest
         deno
         evcxr
         uv
