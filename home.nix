@@ -282,6 +282,13 @@
     };
   };
 
+  # Syntactic diffs for `git diff` in the terminal (sets diff.external = difft)
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+    # options.background = "dark";  # optional, match your terminal
+  };
+
   programs.java.enable = true;
 
   programs.jq.enable = true;
